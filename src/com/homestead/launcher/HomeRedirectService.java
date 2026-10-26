@@ -522,7 +522,13 @@ public class HomeRedirectService extends AccessibilityService {
             if (resumedEpoch == epoch) {
                 Log.i(TAG, "home pressed during handoff; re-raising activity");
                 cancelHide();
-                MainActivity.open(this);
+            Intent projectivy = getPackageManager().getLaunchIntentForPackage("com.spocky.projengmenu");
+if (projectivy != null) {
+    projectivy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(projectivy);
+} else {
+    MainActivity.open(HomeRedirectService.this);
+}
             }
             return;
         }
