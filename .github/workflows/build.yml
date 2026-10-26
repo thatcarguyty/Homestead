@@ -1,3 +1,4 @@
+
 name: Build Projectivy Homestead
 
 on:
@@ -24,7 +25,23 @@ jobs:
       - name: Install Android SDK packages
         run: sdkmanager "platforms;android-34" "build-tools;36.1.0"
 
+      - name: Create temporary signing key
+        run: |
+          mkdir -p "$HOME/.homestead-keys"
+          keytool -genkeypair -noprompt \
+            -keystore "$HOME/.homestead-keys/homestead-release.keystore" \
+            -storepass "temporary-build-password" \
+            -keypass "temporary-build-password" \
+            -alias homestead \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=Homestead Build,O=Local,C=US"
+
       - name: Build APK
+        env:
+          HOMESTEAD_KEYSTORE: /home/runner/.homestead-keys/homestead-release.keystore
+          HOMESTEAD_KEYPASS: temporary-build-password
         run: |
           chmod +x build.sh
           ./build.sh
