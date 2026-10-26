@@ -555,6 +555,10 @@ if (projectivy != null) {
     home.root.getChildAt(i).setVisibility(View.GONE);
 }
 home.root.setBackgroundColor(0xFF000000);
+            for (int i = 0; i < home.root.getChildCount(); i++) {
+    home.root.getChildAt(i).setVisibility(View.GONE);
+}
+home.root.setBackgroundColor(0xFF000000);
             Log.i(TAG, "overlay shown in " + (SystemClock.uptimeMillis() - t0)
                     + "ms epoch=" + epoch);
 
